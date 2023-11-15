@@ -48,5 +48,52 @@ jobs:
       - name: Get Formatted Date
         id: date_time
         run: echo commit_author_email=$(git log -1 --pretty=%cd --date=format:'%B %d, %Y %I:%M %p')>>$GITHUB_OUTPUT
+      
+      - name: Echo
+        run: |
+          echo ${{steps.branch_name.outputs.branch_name}}
+          echo ${{steps.project_name.outputs.project_name}}
+          echo ${{steps.commit_author.outputs.commit_author}}
+          echo ${{steps.commit_author_email.outputs.commit_author_email}}
+          echo ${{steps.date_time.outputs.date_time}}
+
+  Build_Apk:
+    name: Build_android_apk
+    needs: [Get_info,delete-artifacts]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Java
+        uses: actions/setup-java@v3.13.0
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Set up flutter
+        uses: subosito/flutter-action@v2.12.0
+        with:
+          flutter-version: 3.13.0
+          channel: 'stabel'
+
+      - name: Clean build folder
+        run: flutter clean
+
+      - name: Get packages dependencies
+        run: flutter pub get
+
+      - name: Build apk
+        run: flutter build apk --release --no-tree-shake-icons
+
+      
+
+        
+
+  
+    
+          
+            
+    
         
       
