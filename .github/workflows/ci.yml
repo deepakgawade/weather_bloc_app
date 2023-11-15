@@ -14,4 +14,39 @@ jobs:
     steps:
       - uses: kolpav/purge-artifacts-action@v1
         with:
-          token:
+          token: ${{secrets.GITHUB_TOKEN}}
+          expire-in: 0days
+  Get_info:
+    name: Get info
+    runs-on: ubuntu-latest
+    outputs:
+      branch_name: ${{steps.branch_name.outputs.branch_name}}
+      project_name: ${{steps.project_name.outputs.project_name}}
+      commit_author: ${{steps.commit_author.outputs.commit_author}}
+      commit_author_email: ${{steps.commit_author_email.outputs.commit_author_email}}
+      date_time: ${{steps.date_time.outputs.date_time}}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+        
+      - name: Get Branch Name
+        id: branch_name
+        run: echo branch_name=${GITHUB_REF#refs/heads/}>>$GITHUB_OUTPUT
+        
+      - name: Get Project Name
+        id: project_name
+        run: echo project_name=${GITHUB_REPOSITORY#*/}>>$GITHUB_OUTPUT
+        
+      - name: Get Commit Author
+        id: commit_author
+        run: echo commit_author=$(git log -1 --pretty=%an)>>$GITHUB_OUTPUT
+        
+      - name: Get Commit Author Email
+        id: commit_author_email
+        run: echo commit_author_email=$(git log -1 --pretty=%ae)>>$GITHUB_OUTPUT
+        
+      - name: Get Formatted Date
+        id: date_time
+        run: echo commit_author_email=$(git log -1 --pretty=%cd --date=format:'%B %d, %Y %I:%M %p')>>$GITHUB_OUTPUT
+        
+      
