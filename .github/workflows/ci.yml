@@ -75,7 +75,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.10.0
-          channel: 'stabel'
+          channel: 'stable'
+          
 
       - name: Clean build folder
         run: flutter clean
