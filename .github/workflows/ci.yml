@@ -1,0 +1,15 @@
+name: CI/CD build APK and Upload to google drive, send link to gmail account.
+
+on:
+  push:
+    branches:
+      - main
+      - test_weather
+
+  workflow_dispatch:
+
+jobs:
+  delete-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kolpav/purg
