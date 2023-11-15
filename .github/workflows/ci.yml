@@ -12,4 +12,4 @@ jobs:
   delete-artifacts:
     runs-on: ubuntu-latest
     steps:
-      - uses: kolpav/purg
+      - uses: kolpav/purge-artifacts-action@v1
